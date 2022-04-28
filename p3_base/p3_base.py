@@ -28,7 +28,7 @@ encoderR.enable(TIME_STEP)
 
 ultrasonic_sensor_names = [ "left ultrasonic sensor", "front left ultrasonic sensor", "front ultrasonic sensor", "front right ultrasonic sensor",
   "right ultrasonic sensor"]
-infrared_sensors_names = ["rear left infrared sensor", "left infrared sensor", "front left infrared sensor", "front infrared sensor",
+infrared_sensor_names = ["rear left infrared sensor", "left infrared sensor", "front left infrared sensor", "front infrared sensor",
   "front right infrared sensor", "right infrared sensor", "rear right infrared sensor", "rear infrared sensor",
   "ground left infrared sensor", "ground front left infrared sensor", "ground front right infrared sensor",
   "ground right infrared sensor"]
@@ -36,18 +36,18 @@ infrared_sensors_names = ["rear left infrared sensor", "left infrared sensor", "
 def main():
   ultrasonic_devices = []
   infrared_devices = []
-
   robot.step(TIME_STEP)
-  for x in ultrasonic_sensor_names:
-    ultrasonic_devices += (robot.getDevice(ultrasonic_sensor_names[x]))
-    ultrasonic_devices[x].enable() 
+  for x in range (5):
+    ultrasonic_devices += [robot.getDevice(ultrasonic_sensor_names[x])]
+    ultrasonic_devices[x].enable(TIME_STEP)
+    print(ultrasonic_sensor_names[x]) 
     
-  for y in infrared_sensors_names:
-    infrared_devices += (robot.getDevice(infrared_sensors_names[y]))
-    infrared_devices[y].enable()
+  for y in range (12):
+    infrared_devices += [robot.getDevice(infrared_sensor_names[y])]
+    infrared_devices[y].enable(TIME_STEP)
 
-  leftWheel.setPosition(inf)
-  rightWheel.setPosition(inf)
+  leftWheel.setPosition(INFINITY)
+  rightWheel.setPosition(INFINITY)
   leftWheel.setVelocity(0)
   rightWheel.setVelocity(0)
 
@@ -64,18 +64,19 @@ def main():
       for i in range (12):
         print("- infrared sensors(",infrared_sensor_names[i],") = ", infrared_devices[i].getValue(),"[m]")
 
-    front_l_led.set(np.random.rand(0xFFFFFF))
-    front_r_led.set(np.random.rand(0xFFFFFF))
-    rear_led.set(np.random.rand(0xFFFFFF))
+    front_l_led.set(0xffffff)
+    front_r_led.set(0xffffff)
+    rear_led.set(0xffffff)
 
     #Obstacle avoidance algorithm
 
-    speed_offset = 0.2 * (WHEEL_SPEED - 0.03 * infrared_sensors[3].getValue())
-    speed_delta = 0.03 * infrared_sensors[2].getValue() - 0.03 * infrared_sensors[4].getValue()
+    speed_offset = 0.2 * (WHEEL_SPEED - 0.03 * infrared_devices[3].getValue())
+    speed_delta = 0.03 * infrared_devices[2].getValue() - 0.03 * infrared_devices[4].getValue()
     leftWheel.setVelocity(speed_offset + speed_delta)
     rightWheel.setVelocity(speed_offset - speed_delta)
 
 main() 
+
 
 
 
