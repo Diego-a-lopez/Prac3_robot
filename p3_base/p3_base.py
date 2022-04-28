@@ -37,12 +37,12 @@ def main():
   ultrasonic_devices = []
   infrared_devices = []
   robot.step(TIME_STEP)
-  for x in range (5):
+  for x in range (len(ultrasonic_sensor_names)):
     ultrasonic_devices += [robot.getDevice(ultrasonic_sensor_names[x])]
     ultrasonic_devices[x].enable(TIME_STEP)
     print(ultrasonic_sensor_names[x]) 
     
-  for y in range (12):
+  for y in range (len(infrared_sensor_names)):
     infrared_devices += [robot.getDevice(infrared_sensor_names[y])]
     infrared_devices[y].enable(TIME_STEP)
 
@@ -76,6 +76,12 @@ def main():
     rightWheel.setVelocity(speed_offset - speed_delta)
 
 main() 
+
+
+
+
+
+
 
 
 
